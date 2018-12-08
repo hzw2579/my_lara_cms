@@ -67,11 +67,11 @@
                             <div class="layui-inline">
                                 <label class="layui-form-label">地图坐标</label>
                                 <div class="layui-input-inline" style="width: 100px;">
-                                    <input type="text" name="coord1" placeholder="经度"  value="{{$list->coord[0]}}" autocomplete="off" class="layui-input">
+                                    <input type="text" name="coord1" placeholder="经度"  value="@if(!empty($list->coord)){{$list->coord[0]}}@endif" autocomplete="off" class="layui-input">
                                 </div>
                                 <div class="layui-form-mid">-</div>
                                 <div class="layui-input-inline" style="width: 100px;">
-                                    <input type="text" name="coord2" placeholder="纬度" value="{{$list->coord[1]}}" autocomplete="off" class="layui-input">
+                                    <input type="text" name="coord2" placeholder="纬度" value="@if(!empty($list->coord)){{$list->coord[1]}}@endif" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                         </div>

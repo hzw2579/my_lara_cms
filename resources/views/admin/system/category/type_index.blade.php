@@ -70,7 +70,7 @@
                 content: '{{url('admin/category_type/create')}}',
                 //关闭是的回调函数
                 end:function () {
-                    window.location.reload();
+                    table.reload('demo');
                 }
             });
         })

@@ -9,8 +9,9 @@
         "fideloper/proxy": "~3.3",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
-        "zgldh/qiniu-laravel-storage": "^0.10.0",
-        "stevenyangecho/laravel-u-editor": "~1.4"
+        "spatie/laravel-permission": "^2.28",
+        "stevenyangecho/laravel-u-editor": "~1.4",
+        "zgldh/qiniu-laravel-storage": "^0.10.0"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
