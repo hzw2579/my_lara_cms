@@ -89,7 +89,7 @@
                 content: '{{url('admin/category/create')}}',
                 //关闭是的回调函数
                 end:function () {
-                    window.location.reload();
+                    table.reload('demo');
                 }
             });
         })
@@ -116,7 +116,7 @@
                 content: "/admin/category/"+id+"/edit",
                 //关闭是的回调函数
                 end:function () {
-                    window.location.reload();
+                    table.reload('demo');
                 }
             });
         }
@@ -132,7 +132,7 @@
                         success: function (msg) {
                             if (msg.code == 1) {
                                 layer.msg('删除成功');
-                                window.location.reload();
+                                table.reload('demo');
                             } else {
                                 layer.msg('删除失败');
                             }

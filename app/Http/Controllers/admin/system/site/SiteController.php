@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin\system\site;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Site;
+use test\Mockery\Fixtures\EmptyTestCaseV5;
 
 class SiteController extends Controller
 {
@@ -26,7 +27,10 @@ class SiteController extends Controller
     //联系方式
     public function contact(Site $site){
         $data['list'] = $site->find(1);
-        $data['list']['coord'] = explode('-',$data['list']['coord']);
+        //判断百度地图经纬度是否存在
+        if(!empty($data['list']['coord'])){
+            $data['list']['coord'] = explode('-',$data['list']['coord']);
+        }
         return view('admin.system.site.contact',$data);
     }
     //修改
