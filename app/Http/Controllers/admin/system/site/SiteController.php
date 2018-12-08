@@ -36,7 +36,7 @@ class SiteController extends Controller
     //修改
     public function edit(Request $request,Site $site){
         $data = $request->all();
-        $res = $site->edit($data['id'],$data,[],['_token']);
+        $res = $site->edit($data['id'],$data);
         if($res){
             return ['code' => 1];
         }else{

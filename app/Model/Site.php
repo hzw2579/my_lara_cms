@@ -12,4 +12,5 @@ class Site extends Base
     protected $table = 'site';
     //指定主键ID
     protected $primaryKey='id';
+
 }
