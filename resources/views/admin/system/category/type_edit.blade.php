@@ -21,7 +21,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">类型名称</label>
                         <div class="layui-input-block">
-                            <input type="text" name="name" value="{{$list->name}}" class="layui-input">
+                            <input type="text" name="name" value="{{$list->name}}" class="layui-input" lay-verify="required">
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -63,7 +63,7 @@
             console.log(data.field);
             $ = layui.$;
             $.ajax({
-                url: "/admin/category_type/"+{{$list->id}},
+                url: "/admin/category_type/{{$list->id}}",
                 type: "post",
                 async: false,
                 cache: false,
@@ -76,6 +76,11 @@
                     }else{
                         layer.msg('修改失败');
                     }
+                },
+                error:function (msg) {
+                    $.each(msg.responseJSON.errors,function (k,v) {
+                        layer.msg(v[0]);
+                    })
                 }
             });
         });

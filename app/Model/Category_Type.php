@@ -12,4 +12,5 @@ class Category_Type extends Base
     protected $table = 'category_type';
     //指定主键ID
     protected $primaryKey='id';
+
 }

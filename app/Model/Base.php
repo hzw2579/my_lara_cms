@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 class Base extends Model
 {
     //定义公共黑名单属性
-    protected $guarded = ['_token','_method','psw_confirmation'];
-    
+    protected $expect = ['_token','_method','psw_confirmation'];
+
     //设置当字段为psw的时候自动使用bcrypt存放数据
     public function setPswAttribute($value)
     {
@@ -31,9 +31,11 @@ class Base extends Model
      * @return bool 返回布尔值
      */
     public function add($data){
-        //遍历数据,判断数据是否与模型的字段一致
+        //组装数据
         foreach ($data as $k=>$v){
-            if(isset($this->$k) && $data[$k]!==null){
+            //排除数组
+            $arr=$this->expect;
+            if(!in_array($k,$arr)){
                 $this->$k=$v;
             }
         }

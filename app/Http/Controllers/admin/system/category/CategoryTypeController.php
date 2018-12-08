@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin\system\category;
 
+use App\Http\Requests\CheckCategoryType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Category_Type;
@@ -35,9 +36,9 @@ class CategoryTypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,Category_Type $category_Type)
+    public function store(CheckCategoryType $request,Category_Type $category_Type)
     {
-        $res = $category_Type->add($request->all(),[],['_token']);
+        $res = $category_Type->add($request->all());
         if($res){
             return ['code'=>1];
         }else{
@@ -75,7 +76,7 @@ class CategoryTypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Category_Type $category_Type,Request $request, $id)
+    public function update(Category_Type $category_Type,CheckCategoryType $request, $id)
     {
         $res = $category_Type->edit($id,$request->all());
         return ajax_return($res);

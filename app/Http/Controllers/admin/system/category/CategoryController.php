@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin\system\category;
 
+use App\Http\Requests\CheckCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Category;
@@ -38,8 +39,9 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,Category $category)
+    public function store(CheckCategory $request,Category $category)
     {
+
         $data = $request->all();
         if($request->input('status',0) == 0){
             $data['status'] = 0;
@@ -80,7 +82,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CheckCategory $request, $id)
     {
         $category = new Category();
         $data = $request->all();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin\system\site;
 
+use App\Http\Requests\CheckSite;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Site;
@@ -34,7 +35,7 @@ class SiteController extends Controller
         return view('admin.system.site.contact',$data);
     }
     //修改
-    public function edit(Request $request,Site $site){
+    public function edit(CheckSite $request,Site $site){
         $data = $request->all();
         $res = $site->edit($data['id'],$data);
         if($res){

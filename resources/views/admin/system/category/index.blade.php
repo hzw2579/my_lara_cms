@@ -17,7 +17,7 @@
             <button class="layui-btn layuiadmin-btn-tags" id="add">添加</button>
         </div>
         <div class="layui-card-body">
-            <table lay-filter="demo" id="demo">
+            <table lay-filter="demo" id="demo"  lay-data="{id:'demo'}">
             <thead>
             <tr>
                 <th lay-data="{field:'id', width:100, sort:true}">ID</th>
