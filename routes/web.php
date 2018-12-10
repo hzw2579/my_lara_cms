@@ -16,7 +16,8 @@
  * 后台路由文件
  */
 Route::group(['prefix'=>'admin'],function (){
-
+    //laravel自带的登录和注册
+    Auth::routes();
     //首页\登录
     Route::group(['namespace'=>'admin\index'],function (){
 
@@ -25,7 +26,7 @@ Route::group(['prefix'=>'admin'],function (){
             Route::get('index','IndexController@index');
             Route::get('main','IndexController@main');
             //登录
-            Route::match(['get','post'],'login','IndexController@login');
+//            Route::match(['get','post'],'login','IndexController@login');
         });
 
     });
@@ -44,14 +45,19 @@ Route::group(['prefix'=>'admin'],function (){
             Route::resource('auth', 'AuthController');
             //角色控制器
             Route::resource('roles', 'RolesController');
+            //角色ajax列表
+            Route::get('roles_ajax_list', 'RolesController@roles_ajax_list');
+            //权限ajax列表
+            Route::get('auth_ajax_list', 'AuthController@auth_ajax_list');
         });
 
         //后台分类管理
         Route::group(['namespace'=>'category'],function (){
-            //权限控制器
+            //分类制器
             Route::resource('category', 'CategoryController');
-            //角色控制器
+            //分类类型控制器
             Route::resource('category_type', 'CategoryTypeController');
+            //分类类型ajax列表
             Route::get('type_ajax_list', 'CategoryTypeController@type_ajax_list');
         });
 
@@ -142,3 +148,7 @@ Route::group(['prefix'=>'admin'],function (){
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+
+Route::get('/home', 'HomeController@index')->name('home');

@@ -142,7 +142,11 @@
                             </dd>
 
                             <dd data-name="auth" class="">
-                                <a lay-href="{{url('admin/site')}}">权限管理</a>
+                                <a lay-href="{{url('admin/auth')}}">权限管理</a>
+                            </dd>
+
+                            <dd data-name="auth" class="">
+                                <a lay-href="{{url('admin/roles')}}">角色管理</a>
                             </dd>
 
                             <dd data-name="users" class="">

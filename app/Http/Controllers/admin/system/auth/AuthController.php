@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\admin\system\auth;
 
+use App\Model\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use Spatie\Permission\Models\Permission;
 class AuthController extends Controller
 {
     /**
@@ -14,7 +15,7 @@ class AuthController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.auth.auth.index');
     }
 
     /**
@@ -24,7 +25,7 @@ class AuthController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.auth.auth.add');
     }
 
     /**
@@ -35,7 +36,9 @@ class AuthController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $res = Permission::create(['name' => $request->input('name'),'desc'=>$request->input('desc')]);
+
+        return $res?['code'=>1]:['code'=>0];
     }
 
     /**
@@ -57,7 +60,9 @@ class AuthController extends Controller
      */
     public function edit($id)
     {
-        //
+        $auth=new Auth();
+        $data['info']=$auth->find($id);
+        return view('admin.auth.auth.edit',$data);
     }
 
     /**
@@ -69,7 +74,9 @@ class AuthController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $auth=new Auth();
+        $res=$auth->edit($id,$request->all());
+        return $res?['code'=>1]:['code'=>0];
     }
 
     /**
@@ -80,6 +87,17 @@ class AuthController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $auth = new Auth();
+        $res = $auth->destroy($id);
+        return $res?['code'=>1]:['code'=>0];
+    }
+
+    public function auth_ajax_list(Request $request,Auth $auth){
+        $PageId = $request->input('page',1);
+        $limit = $request->input('limit',10);
+        $offset = ($PageId-1)*$limit;
+        $data  = $auth->get_limit([],$offset,$limit);
+        $count = $auth->count();
+        return ['code'=>0,'count'=>$count,'data'=>$data];
     }
 }
