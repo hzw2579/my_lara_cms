@@ -20,7 +20,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">分类名称</label>
                         <div class="layui-input-block">
-                            <input type="text" name="name" value="" class="layui-input">
+                            <input type="text" name="name" value="" class="layui-input" lay-verify="required">
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -114,11 +114,18 @@
                 success: function (msg) {
                     if(msg.code== 1){
                         layer.msg('保存成功');
+                        // parent.tableIns.reload()
                         var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
                         parent.layer.close(index); //再执行关闭
                     }else{
                         layer.msg('保存失败');
                     }
+                },
+                error:function (msg) {
+                    console.log(msg);
+                    $.each(msg.responseJSON.errors,function (k,v) {
+                        layer.msg(v[0]);
+                    })
                 }
             });
         });

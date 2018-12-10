@@ -16,4 +16,5 @@ class Category_Type extends Base
     protected $primaryKey='id';
     //软删除
     protected $dates = ['deleted_at'];
+
 }

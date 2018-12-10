@@ -54,7 +54,7 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">邮箱</label>
                             <div class="layui-input-block">
-                                <input type="text" name="email"  value="{{$list->email}}" class="layui-input">
+                                <input type="text" name="email"  value="{{$list->email}}" class="layui-input" lay-verify="email">
                             </div>
                         </div>
                         <div class="layui-form-item">
@@ -113,11 +113,17 @@
                 cache: false,
                 data: data.field,
                 success: function (msg) {
+
                     if(msg.code== 1){
                         layer.msg('保存成功');
                     }else{
                         layer.msg('保存失败');
                     }
+                },
+                error:function (msg) {
+                    $.each(msg.responseJSON.errors,function (k,v) {
+                        layer.msg(v[0]);
+                    })
                 }
             });
         });

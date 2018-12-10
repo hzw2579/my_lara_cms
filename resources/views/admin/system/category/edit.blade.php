@@ -22,7 +22,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">分类名称</label>
                         <div class="layui-input-block">
-                            <input type="text" name="name" value="{{$info->name}}" class="layui-input">
+                            <input type="text" name="name" value="{{$info->name}}" class="layui-input" lay-verify="required">
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -111,6 +111,12 @@
                     }else{
                         layer.msg('修改失败');
                     }
+                },
+                error:function (msg) {
+                    console.log(msg);
+                    $.each(msg.responseJSON.errors,function (k,v) {
+                        layer.msg(v[0]);
+                    })
                 }
             });
         });

@@ -5,100 +5,70 @@
  * 日期：2018-08-30
  */
 namespace App\Model;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
 class Base extends Model
 {
+    //定义公共黑名单属性
+    protected $expect = ['_token','_method','psw_confirmation'];
+
+    //设置当字段为psw的时候自动使用bcrypt存放数据
+    public function setPswAttribute($value)
+    {
+        $this->attributes['psw'] = bcrypt($value);
+    }
+
     //ajax分页
     public function get_limit($where = [],$offset = 0,$limit = 10,$By = 'id'){
         return $this->where($where)->offset($offset)->limit($limit)->orderBy($By,'desc')->get()->toArray();
     }
+
     /**
+     * 作者:fivetong
+     * 创建时间：2018/12/8
      * 公共添加方法
-     * 作者：何志伟
-     * 日期：2018-09-03
-     * @param $data 传入需要写入的参数
-     * @param array $field  需要特别处理的字段
-     * @param array $expect 需要排除的字段
-     * @param array $edit   需要修改参数名的字段
-     * @return mixed
+     * @param $data 传入需要处理的数据
+     * @return bool 返回布尔值
      */
-    public function add($data,$field=[],$expect=['_token','_method'],$edit=[]){
+    public function add($data){
+        //组装数据
         foreach ($data as $k=>$v){
-            //如果关键字在排除字段中则不组装该字段的数组结构
-            if(in_array($k,$expect)){
-                continue;
+            //排除数组
+            $arr=$this->expect;
+            if(!in_array($k,$arr)){
+                $this->$k=$v;
             }
-            //判断如果存在密码字段
-            if($k=="psw"){
-                $arr[$k]=bcrypt($v);
-                continue;
-            }
-            //判断如果存在特别处理字段
-            if(array_key_exists($k,$field)){
-                //判断是否需要字段修改的
-                if(array_key_exists($k,$edit)){
-                    $arr[$edit[$k]]=$field[$k];
-                }else{
-                    if($field[$k]=="json"){
-                        $arr[$k]=json_encode($v);
-                        continue;
-                    }
-                    $arr[$k]=$field[$k];
-                }
-                continue;
-            }
-            $arr[$k]=$v;
         }
-
-        $arr['created_at']=date('Y-m-d H:i:s',time());
-        $arr['updated_at']=date('Y-m-d H:i:s',time());
-        $res=$this->insertGetId($arr);
-        return $res;
+        try{
+            return $res=$this->save();
+        }catch (\Exception $e){
+            Log::error("错误提示".$e->getMessage());
+        }
     }
+
     /**
-     * @param $id 需要更新的数据
-     * @param $data 传入需要写入的参数
-     * @param array $field 需要特别处理的字段
-     * @param array $expect 需要排除的字段
-     * @param array $edit 需要修改参数名的字段
+     * 作者:fivetong
+     * 创建时间：2018/12/8
+     * 公共修改方法
+     * @param $id 需求修改的ID
+     * @param $data 传入的数据
+     * @return mixed 返回混合数据
      */
-    public function edit($id,$data,$field=[],$expect=['_token','_method'],$edit=[]){
+    public function edit($id,$data){
+        $model=$this->find($id);
+        //遍历数据,判断数据是否与模型的字段一致
         foreach ($data as $k=>$v){
-            //如果关键字在排除字段中则不组装该字段的数组结构
-            if(in_array($k,$expect)){
-                continue;
+            if(isset($model->$k) && $data[$k]!==null){
+                $model->$k=$v;
             }
-            if($v === NULL){
-                continue;
-            }
-            //判断如果存在密码字段
-            if($k=="psw"){
-                $arr[$k]=bcrypt($v);
-                continue;
-            }
-            //判断如果存在特别处理字段
-            if(array_key_exists($k,$field)){
-                //判断是否需要字段修改的
-                if(array_key_exists($k,$edit)){
-                    $arr[$edit[$k]]=$field[$k];
-                }else{
-
-                    if($field[$k]=="json"){
-                        $arr[$k]=json_encode($v);
-                        continue;
-                    }
-                    $arr[$k]=$field[$k];
-                }
-                continue;
-            }
-            $arr[$k]=$v;
         }
-//        $arr['created_at']=date('Y-m-d H:i:s',time());
-        $arr['updated_at']=date('Y-m-d H:i:s',time());
-        $res=$this->where('id', $id)
-            ->update($arr);
-        return $res;
+        try{
+            return $res=$model->save();
+        }catch (\Exception $e){
+            Log::error("错误提示".$e->getMessage());
+        }
     }
+
     /**
      * 公共删除方法
      * 作者：何志伟
