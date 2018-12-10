@@ -105,4 +105,20 @@ class CategoryController extends Controller
         $res = $category->del($id);
         return ajax_return($res);
     }
+
+    //ajax返回
+    public function ajax_list(Category $category){
+        $data = $category->getTree($category->get()->toarray(),'0','1');
+        $count = $category->count();
+        foreach($data as $k => $v){
+            $data[$k]['name'] = str_repeat("|----",$v['level']-1).$v['name'];
+            $data[$k]['type'] = get_cate_type($v['type']);
+            if($v['status'] == 1){
+                $data[$k]['status'] = '<button class="layui-btn layui-btn-xs layui-btn-radius layui-btn-normal">启用</button>';
+            }else{
+                $data[$k]['status'] = '<button class="layui-btn layui-btn-xs layui-btn-radius layui-btn-disabled">禁用</button>';
+            }
+        }
+        return ['code'=>0,'count'=>$count,'data'=>$data];
+    }
 }

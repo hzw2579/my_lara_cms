@@ -175,7 +175,7 @@
                                 <a lay-href="{{url('admin/site')}}">相册管理</a>
                             </dd>
                             <dd data-name="link" class="">
-                                <a lay-href="{{url('admin/site')}}">友情链接</a>
+                                <a lay-href="{{url('admin/link')}}">友情链接</a>
                             </dd>
                             <dd data-name="page" class="">
                                 <a lay-href="{{url('admin/site')}}">单页管理</a>
@@ -201,7 +201,7 @@
                             <span class="layui-nav-more"></span></a>
                         <dl class="layui-nav-child">
                             <dd data-name="messages" class="">
-                                <a lay-href="{{url('admin/site')}}">留言管理</a>
+                                <a lay-href="{{url('admin/messages')}}">留言管理</a>
                             </dd>
                         </dl>
                     </li>

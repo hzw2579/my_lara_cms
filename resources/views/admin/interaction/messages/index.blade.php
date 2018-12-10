@@ -14,11 +14,11 @@
 <div class="layui-fluid">
     <div class="layui-card">
         <div class="layui-card-header layuiadmin-card-header-auto">
-                搜索：
-                <div class="layui-inline">
-                    <input class="layui-input" name="search" id="search" autocomplete="off">
-                </div>
-                <button class="layui-btn layuiadmin-btn-tags" id="reload">搜索</button>
+            搜索：
+            <div class="layui-inline">
+                <input class="layui-input" name="search" id="search" autocomplete="off">
+            </div>
+            <button class="layui-btn layuiadmin-btn-tags" id="reload">搜索</button>
         </div>
         <div class="layui-card-body">
             <table id="demo" lay-filter="test" lay-data="demo"></table>
@@ -37,7 +37,31 @@
         </div>
     </div>
 </div>
+@verbatim
+    <script type="text/html" id="statusTpl">
+        {{#  if(d.status  == 1){ }}
+        <button class="layui-btn layui-btn-xs layui-btn-radius layui-btn-normal">已处理</button>
+        {{#  } else { }}
+        <button class="layui-btn layui-btn-xs layui-btn-radius layui-btn-disabled">未处理</button>
+        {{# }}}
+    </script>
+    <script type="text/html" id="imageTpl">
+        <img src="{{ d.image }}">
+    </script>
+    <script type="text/html" id="typeTpl">
+        {{#  if(d.type  == 1){ }}
+        邮箱：
+        {{#  } else if( d.status == 2) { }}
+        手机：
+        {{#  } else if( d.status == 3) { }}
+        QQ：
+        {{#  } else if( d.status == 4) { }}
+        微信：
+        {{# }}}
+        {{ d.contact }}
+    </script>
 
+@endverbatim
 <script src="{{asset('src')}}/layui/layui.js"></script>
 <script src="{{asset('src')}}/jquery.js"></script>
 <script>
@@ -55,15 +79,18 @@
         table.render({
             elem: '#demo'
             ,height: 'full-170'
-            ,url: "{{url('admin/type_ajax_list')}}" //数据接口
+            ,url: "{{url('admin/messages_ajax_list')}}" //数据接口
             ,toolbar: '#head-left' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
             ,page: true //开启分页
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
-                ,{field: 'name', title: '类型名称'}
-                ,{field: 'sort', title: '排序', sort: true, width:'20%'}
-                ,{field: 'updated_at', title: '修改时间', sort: true,width:'25%'}
+                ,{field: 'type',templet:'#typeTpl', title: '联系方式'}
+                ,{field: 'message', title: '留言'}
+                ,{field: 'image',templet:'#imageTpl', title: '附件'}
+                ,{field: 'status',templet:'#statusTpl', title: '状态', sort: true, width:'10%'}
+                ,{field: 'updated_at', title: '修改时间', sort: true,width:'15%'}
+                ,{field: 'created_at', title: '创建时间', sort: true,width:'15%'}
                 ,{title: '操作',fixed: 'right', width:'20%', align:'center', toolbar: '#toolbarDemo'}
             ]]
             ,done: function(res, curr, count){
@@ -192,6 +219,19 @@
         });
     });
 </script>
+<style>
+    .layui-table tr {
+        height: 140px; /*数值按需更改*/
+    }
+
+    .layui-table-cell {
+        height: auto; /*数值按需更改*/
+    }
+
+    .layui-table img {
+        max-width: 140px;
+    }
+</style>
 </body>
 
 </html>

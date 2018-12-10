@@ -14,11 +14,11 @@
 <div class="layui-fluid">
     <div class="layui-card">
         <div class="layui-card-header layuiadmin-card-header-auto">
-                搜索：
-                <div class="layui-inline">
-                    <input class="layui-input" name="search" id="search" autocomplete="off">
-                </div>
-                <button class="layui-btn layuiadmin-btn-tags" id="reload">搜索</button>
+            搜索：
+            <div class="layui-inline">
+                <input class="layui-input" name="search" id="search" autocomplete="off">
+            </div>
+            <button class="layui-btn layuiadmin-btn-tags" id="reload">搜索</button>
         </div>
         <div class="layui-card-body">
             <table id="demo" lay-filter="test" lay-data="demo"></table>
@@ -37,7 +37,25 @@
         </div>
     </div>
 </div>
-
+@verbatim
+    <script type="text/html" id="statusTpl">
+        {{#  if(d.status  == 1){ }}
+        <button class="layui-btn layui-btn-xs layui-btn-radius layui-btn-normal">显示</button>
+        {{#  } else { }}
+        <button class="layui-btn layui-btn-xs layui-btn-radius layui-btn-disabled">隐藏</button>
+        {{# }}}
+    </script>
+    <script type="text/html" id="nameTpl">
+        <a style="color: #0d3d88;" href="{{ d.url }}" target="_blank">{{ d.name }}</a>
+    </script>
+    <script type="text/html" id="targetTpl">
+        {{#  if(d.status  == 1){ }}
+        当前窗口
+        {{#  } else { }}
+        新开窗口
+        {{# }}}
+    </script>
+@endverbatim
 <script src="{{asset('src')}}/layui/layui.js"></script>
 <script src="{{asset('src')}}/jquery.js"></script>
 <script>
@@ -55,15 +73,18 @@
         table.render({
             elem: '#demo'
             ,height: 'full-170'
-            ,url: "{{url('admin/type_ajax_list')}}" //数据接口
+            ,url: "{{url('admin/link_ajax_list')}}" //数据接口
             ,toolbar: '#head-left' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
             ,page: true //开启分页
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
-                ,{field: 'name', title: '类型名称'}
-                ,{field: 'sort', title: '排序', sort: true, width:'20%'}
-                ,{field: 'updated_at', title: '修改时间', sort: true,width:'25%'}
+                ,{field: 'name',templet:'#nameTpl', title: '名称'}
+                ,{field: 'target',templet:'#targetTpl', title: '打开方式', width:'10%'}
+                ,{field: 'description', title: '描述', width:'20%'}
+                ,{field: 'sort', sort: true,title: '排序', width:'10%'}
+                ,{field: 'status', templet:'#statusTpl',sort: true,title: '状态', width:'10%'}
+                ,{field: 'updated_at', title: '修改时间', sort: true,width:'15%'}
                 ,{title: '操作',fixed: 'right', width:'20%', align:'center', toolbar: '#toolbarDemo'}
             ]]
             ,done: function(res, curr, count){
@@ -85,12 +106,12 @@
         function edit_ajax(id){
             layer.open({
                 type: 2,
-                title:'修改类型',
-                area: ['40%', '35%'],
+                title:'修改友链',
+                area: ['80%', '80%'],
                 fixed: false, //不固定
                 maxmin: true,
                 offset: 't',
-                content: "/admin/category_type/"+id+"/edit",
+                content: "/admin/link/"+id+"/edit",
                 end:function () {
                     table.reload('demo');
                 }
@@ -101,7 +122,7 @@
             layer.confirm('确认要删除吗？', {icon: 3, title:'提示'}, function(index) {
                 if(index) {
                     $.ajax({
-                        url: "/admin/category_type/" + id,
+                        url: "/admin/link/" + id,
                         type: "post",
                         async: false,
                         cache: false,
@@ -122,12 +143,12 @@
         function add(){
             layer.open({
                 type: 2,
-                title: '添加类型',
-                area: ['800px', '250px'],
+                title: '添加友链',
+                area: ['80%', '80%'],
                 fixed: false, //不固定
                 maxmin: true,
                 offset: 't',
-                content: '{{url('admin/category_type/create')}}',
+                content: '{{url('admin/link/create')}}',
                 //关闭是的回调函数
                 end: function () {
                     table.reload('demo');
@@ -158,7 +179,7 @@
                                 }
 
                                 $.ajax({
-                                    url: "/admin/category_delAll",
+                                    url: "/admin/link_delAll",
                                     type: "post",
                                     async: false,
                                     cache: false,
@@ -179,6 +200,7 @@
             };
         });
 
+        //搜索
         $('#reload').on('click',function(){
             //执行重载
             table.reload('demo', {

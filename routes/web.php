@@ -55,6 +55,7 @@ Route::group(['prefix'=>'admin'],function (){
         Route::group(['namespace'=>'category'],function (){
             //分类制器
             Route::resource('category', 'CategoryController');
+            Route::get('category_ajax_list', 'CategoryController@ajax_list');
             //分类类型控制器
             Route::resource('category_type', 'CategoryTypeController');
             //分类类型ajax列表
@@ -113,6 +114,8 @@ Route::group(['prefix'=>'admin'],function (){
         //友情链接
         Route::group(['namespace'=>'link'],function (){
             Route::resource('link', 'LinkController');
+            Route::get('link_ajax_list', 'LinkController@ajax_list');
+            Route::post('link_delAll', 'LinkController@delAll');
         });
 
         //单页管理
@@ -136,6 +139,7 @@ Route::group(['prefix'=>'admin'],function (){
         //留言管理
         Route::group(['namespace'=>'messages'],function (){
             Route::resource('messages', 'MessagesController');
+            Route::get('messages_ajax_list', 'MessagesController@ajax_list');
         });
 
     });

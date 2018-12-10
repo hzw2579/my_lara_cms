@@ -112,11 +112,9 @@ class CategoryTypeController extends Controller
         return ['code'=>0,'count'=>$count,'data'=>$data];
     }
 
-    //公共多删除
-    public function delAll(Request $request){
-        $type = '\App\Model\\'.$request->input('model');
-        $model = new $type();
-        $res = $model->whereIn('id',$request->input('data'))->delete();
+    //多删除
+    public function delAll(Request $request,Category_Type $category_Type){
+        $res = $category_Type->whereIn('id',$request->input('data'))->delete();
         return ajax_return($res);
     }
 }
