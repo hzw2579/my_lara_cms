@@ -32,7 +32,7 @@ function get_file_type($file){
 }
 
 function get_cate_type($id){
-    $type = DB::table('category_type')->where(['id'=>$id,'false_del'=>1])->first();
+    $type = DB::table('category_type')->where(['id'=>$id])->first();
     if(empty($type)){
         return '';
     }

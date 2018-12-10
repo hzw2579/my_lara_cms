@@ -53,6 +53,7 @@ Route::group(['prefix'=>'admin'],function (){
             //角色控制器
             Route::resource('category_type', 'CategoryTypeController');
             Route::get('type_ajax_list', 'CategoryTypeController@type_ajax_list');
+            Route::post('category_delAll', 'CategoryTypeController@delAll');
         });
 
         //后台附件管理

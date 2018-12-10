@@ -16,7 +16,7 @@ class CategoryController extends Controller
      */
     public function index(Category $category)
     {
-        $data['list'] = $category->getTree($category->where('false_del',1)->get()->toarray(),'0','1');
+        $data['list'] = $category->getTree($category->get()->toarray(),'0','1');
         return view('admin.system.category.index',$data);
     }
 
@@ -27,8 +27,8 @@ class CategoryController extends Controller
      */
     public function create(Category_Type $category_Type,Category $category)
     {
-        $data['type_list'] = $category_Type->where('false_del',1)->get();
-        $data['list'] = $category->getTree($category->where([['false_del','=',1],['status','=',1]])->get()->toarray(),'0','1');
+        $data['type_list'] = $category_Type->get();
+        $data['list'] = $category->getTree($category->where([['status','=',1]])->get()->toarray(),'0','1');
         return view('admin.system.category.add',$data);
     }
 
@@ -69,7 +69,7 @@ class CategoryController extends Controller
     {
         $category = new Category();
         $data['info'] = $category->find($id);
-        $data['list'] = $category->getTree($category->where([['false_del','=',1],['status','=',1]])->get()->toarray(),'0','1');
+        $data['list'] = $category->getTree($category->where([['status','=',1]])->get()->toarray(),'0','1');
         return view('admin.system.category.edit',$data);
     }
 
@@ -100,7 +100,7 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $category = new Category();
-        $res = $category->false_del($id);
+        $res = $category->del($id);
         return ajax_return($res);
     }
 }

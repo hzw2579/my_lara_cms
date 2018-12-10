@@ -108,27 +108,8 @@ class Base extends Model
      * @param null $field  传入参数获取对应地址位置图片
      * @return array
      */
-    public function del($id,$img=null,$field='avatar'){
-        //判断当前删除的数据是否有图片需要删除
-        if($img!=null){
-            $resous=$this->find($id);
-            //获取七牛对应的默认上传外链接
-            $domains = config('filesystems.disks.qiniu.domains.default');
-            //截取对应的字符串
-            $img=substr($resous->$field,strlen($domains)+8);
-            //判断当前文件是否存在
-            $disk = \Storage::disk('qiniu');
-            if($disk->exists($img)){
-                //调用删除接口
-                $disk->delete($img);
-            }
-        }
-        $res= $this->destroy($id);
-        if($res){
-            return ['code'=>'0','message'=>'删除成功'];
-        }else{
-            return ['code'=>'0','message'=>'删除失败'];
-        }
+    public function del($id){
+        return $this->destroy($id);
     }
     /**
      * 多条删除方法
@@ -143,9 +124,5 @@ class Base extends Model
             $this->del($v,$img,$field);
         }
         return true;
-    }
-    //假删除
-    public function false_del($id){
-        return $this->edit($id,['false_del'=>0]);
     }
 }

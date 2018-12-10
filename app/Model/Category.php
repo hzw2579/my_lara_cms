@@ -6,12 +6,16 @@
  * Time: 14:33
  */
 namespace App\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 class Category extends Base
 {
+    use SoftDeletes;
     //指定表名
     protected $table = 'category';
     //指定主键ID
     protected $primaryKey='id';
+    //软删除
+    protected $dates = ['deleted_at'];
 
     /**
      * 菜单无限极分类

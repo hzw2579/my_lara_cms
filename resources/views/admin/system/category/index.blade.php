@@ -89,7 +89,7 @@
                 content: '{{url('admin/category/create')}}',
                 //关闭是的回调函数
                 end:function () {
-                    table.reload('demo');
+                    window.location.reload();
                 }
             });
         })
@@ -116,7 +116,7 @@
                 content: "/admin/category/"+id+"/edit",
                 //关闭是的回调函数
                 end:function () {
-                    table.reload('demo');
+                    window.location.reload();
                 }
             });
         }

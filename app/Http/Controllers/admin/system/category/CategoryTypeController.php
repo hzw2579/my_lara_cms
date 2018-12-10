@@ -15,7 +15,7 @@ class CategoryTypeController extends Controller
      */
     public function index(Category_Type $category_type)
     {
-        $data['count'] = $category_type->where([['false_del','=',1]])->count();
+        $data['count'] = $category_type->count();
         return view('admin.system.category.type_index',$data);
     }
 
@@ -87,10 +87,12 @@ class CategoryTypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category_Type $category_Type,$id)
+    public function destroy($id)
     {
-            $res = $category_Type->false_del($id);
-            return ajax_return($res);
+        $category_Type = new Category_Type();
+        $res = $category_Type->del($id);
+        //$res = $res->delete();
+        return ajax_return($res);
     }
 
     //ajax列表
@@ -98,8 +100,16 @@ class CategoryTypeController extends Controller
         $PageId = $request->input('page',1);
         $limit = $request->input('limit',10);
         $offset = ($PageId-1)*$limit;
-        $data  = $category_type->get_limit([['false_del','=',1]],$offset,$limit);
-        $count = $category_type->where([['false_del','=',1]])->count();
+        $data  = $category_type->get_limit([],$offset,$limit);
+        $count = $category_type->count();
         return ['code'=>0,'count'=>$count,'data'=>$data];
+    }
+
+    //公共多删除
+    public function delAll(Request $request){
+        $type = '\App\Model\\'.$request->input('model');
+        $model = new $type();
+        $res = $model->whereIn('id',$request->input('data'))->delete();
+        return ajax_return($res);
     }
 }
