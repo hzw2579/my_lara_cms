@@ -16,12 +16,12 @@
         <div class="layui-card-header layuiadmin-card-header-auto">
                 搜索：
                 <div class="layui-inline">
-                    <input class="layui-input" name="id" id="demoReload" autocomplete="off">
+                    <input class="layui-input" name="search" id="search" autocomplete="off">
                 </div>
-                <button class="layui-btn layuiadmin-btn-tags" id="add">搜索</button>
+                <button class="layui-btn layuiadmin-btn-tags" id="reload">搜索</button>
         </div>
         <div class="layui-card-body">
-            <table id="demo" lay-filter="test"></table>
+            <table id="demo" lay-filter="test" lay-data="demo"></table>
             <script type="text/html" id="toolbarDemo">
                 <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i
                             class="layui-icon layui-icon-edit"></i>编辑</a>
@@ -70,9 +70,6 @@
             }
         });
 
-        //添加,删除
-
-        $("#del").on('click',function(){})
         //编辑，删除
         table.on('tool(test)', function(obj){
             console.log(obj)
@@ -181,6 +178,18 @@
                     }
                     break;
             };
+        });
+
+        $('#reload').on('click',function(){
+            //执行重载
+            table.reload('demo', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                ,where: {
+                    search:$('#search').val()
+                }
+            });
         });
     });
 </script>

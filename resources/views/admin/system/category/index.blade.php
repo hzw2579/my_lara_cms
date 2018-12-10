@@ -77,6 +77,36 @@
             limit:1000
         });
 
+            <th lay-data="{field:'id', width:100, sort:true}">ID</th>
+            <th lay-data="{field:'name',width:'38.1%'}">分类名称</th>
+            <th lay-data="{field:'type',width:100}">分类类型</th>
+            <th lay-data="{field:'parent_name',width:150}">上级分类</th>
+            <th lay-data="{field:'sort',width:100,sort:true}">排序</th>
+            <th lay-data="{field:'status',width:100,sort:true}">状态</th>
+            <th lay-data="{field:'update',width:180,sort:true}">修改时间</th>
+            <th lay-data="{field:'operation',width:170}">操作</th>
+
+        table.render({
+            elem: '#demo'
+            ,height: 'full-170'
+            ,url: "{{url('admin/type_ajax_list')}}" //数据接口
+            ,toolbar: '#head-left' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+            ,page: true //开启分页
+            ,cols: [[ //表头
+                {type: 'checkbox', fixed: 'left'}
+                , {field:'id', width:100, sort:true,fixed: 'left', align: "center", title:'ID'}
+                ,{field:'name',width:'38.1%',title:'分类名称'}
+                ,{field:'type',width:100,title:'分类类型'}
+                ,{field:'parent_name',width:150,title:'上级分类'}
+                ,{field:'sort',width:100,sort:true,title:'排序'}
+                
+                ,{field: 'updated_at', title: '修改时间', sort: true,width:'25%'}
+                ,{title: '操作',fixed: 'right', width:'20%', align:'center', toolbar: '#toolbarDemo'}
+            ]]
+            ,done: function(res, curr, count){
+            }
+        });
+
         //添加
         $("#add").on('click',function () {
             layer.open({

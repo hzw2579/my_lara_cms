@@ -101,8 +101,14 @@ class CategoryTypeController extends Controller
         $PageId = $request->input('page',1);
         $limit = $request->input('limit',10);
         $offset = ($PageId-1)*$limit;
-        $data  = $category_type->get_limit([],$offset,$limit);
-        $count = $category_type->count();
+        if($request->has('search')){
+            $search = $request->input('search');
+            $data  = $category_type->get_limit([['name','like','%'.$search.'%']],$offset,$limit);
+            $count = $category_type->where([['name','like','%'.$search.'%']])->count();
+        }else{
+            $data  = $category_type->get_limit([],$offset,$limit);
+            $count = $category_type->count();
+        }
         return ['code'=>0,'count'=>$count,'data'=>$data];
     }
 
