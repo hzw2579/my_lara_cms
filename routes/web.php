@@ -59,6 +59,7 @@ Route::group(['prefix'=>'admin'],function (){
             Route::resource('category_type', 'CategoryTypeController');
             //分类类型ajax列表
             Route::get('type_ajax_list', 'CategoryTypeController@type_ajax_list');
+            Route::post('category_delAll', 'CategoryTypeController@delAll');
         });
 
         //后台附件管理
