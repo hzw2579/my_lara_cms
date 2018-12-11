@@ -79,7 +79,11 @@ class Base extends Model
      * @return array
      */
     public function del($id){
-        return $this->destroy($id);
+        try {
+            return $this->destroy($id);
+        }catch (\Exception $e){
+                Log::error("错误提示".$e->getMessage());
+        }
     }
     /**
      * 多条删除方法
@@ -89,10 +93,11 @@ class Base extends Model
      * @param null $img
      * @return bool
      */
-    public function delall($data,$img=null,$field='avatar'){
-        foreach ($data['data'] as $v){
-            $this->del($v,$img,$field);
+    public function delall($data){
+        try {
+            return $this->whereIn('id',$data)->delete();
+        }catch (\Exception $e){
+            Log::error("错误提示".$e->getMessage());
         }
-        return true;
     }
 }

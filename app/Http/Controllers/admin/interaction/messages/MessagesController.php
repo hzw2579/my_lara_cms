@@ -58,7 +58,9 @@ class MessagesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $messages = new Messages();
+        $data['info'] = $messages->find($id);
+        return view('admin.interaction.messages.edit',$data);
     }
 
     /**
@@ -70,7 +72,13 @@ class MessagesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $messages = new Messages();
+        $data = [
+            'handling' => $request->input('handling'),
+            'status' => 1
+        ];
+        $res = $messages->edit($id,$data);
+        return ajax_return($res);
     }
 
     /**
@@ -81,7 +89,9 @@ class MessagesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $messages = new Messages();
+        $res = $messages->del($id);
+        return ajax_return($res);
     }
 
     //ajax列表
@@ -101,7 +111,7 @@ class MessagesController extends Controller
     }
     //多删除
     public function delAll(Request $request,Messages $messages){
-        $res = $messages->whereIn('id',$request->input('data'))->delete();
+        $res = $messages->delall($request->input('data'));;
         return ajax_return($res);
     }
 }

@@ -166,7 +166,7 @@
                         <dl class="layui-nav-child">
 
                             <dd data-name="article" class="">
-                                <a lay-href="{{url('admin/site')}}">文章管理</a>
+                                <a lay-href="{{url('admin/article')}}">文章管理</a>
                             </dd>
                             <dd data-name="banner" class="">
                                 <a lay-href="{{url('admin/site')}}">广告管理</a>
