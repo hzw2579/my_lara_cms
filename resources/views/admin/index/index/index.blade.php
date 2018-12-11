@@ -63,13 +63,13 @@
                 </li>
                 <li class="layui-nav-item" lay-unselect="">
                     <a href="javascript:;">
-                        <cite>贤心</cite>
+                        <cite>{{session('name')}}</cite>
                         <span class="layui-nav-more"></span></a>
                     <dl class="layui-nav-child">
                         <dd><a lay-href="../src/views/set/user/info.html">基本资料</a></dd>
                         <dd><a lay-href="../src/views/set/user/password.html">修改密码</a></dd>
                         <hr>
-                        <dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd>
+                        <dd style="text-align: center;"><a href="/admin/login_out">退出</a></dd>
                     </dl>
                 </li>
 
@@ -150,7 +150,7 @@
                             </dd>
 
                             <dd data-name="users" class="">
-                                <a lay-href="{{url('admin/site')}}">管理员管理</a>
+                                <a lay-href="{{url('admin/users')}}">管理员管理</a>
                             </dd>
 
                             <dd data-name="log" class="">

@@ -18,7 +18,7 @@ layui.use(['form','layer','jquery'],function(){
             var formData = new FormData(fm);
             //表单提交通过
             $.ajax({
-                url: "/admin/aboutmelist/1",
+                url: "/admin/login_now",
                 type: "post",
                 // async: false,
                 cache: false,
@@ -29,6 +29,25 @@ layui.use(['form','layer','jquery'],function(){
 
                 },
                 success: function (msg) {
+                    if(msg.code=="1"){
+                        layer.msg("正在登录中",function () {
+                            window.location.href='/admin/index';
+                        })
+                    }else{
+                        layer.msg("密码或账户错误",function () {
+                            $(".login").text("登录").attr("disabled",false).removeClass("layui-disabled");
+                            $("#captcha").click();
+                        })
+                    }
+                },
+                error:function (msg) {
+                    console.log(msg);
+                    $.each(msg.responseJSON.errors,function (k,v) {
+                        layer.msg(v[0],function () {
+                            $(".login").text("登录").attr("disabled",false).removeClass("layui-disabled");
+                            $("#captcha").click();
+                        });
+                    })
                 }
             });
         },1000);
@@ -51,4 +70,5 @@ layui.use(['form','layer','jquery'],function(){
             $(this).parent().removeClass("layui-input-active");
         }
     })
+
 })

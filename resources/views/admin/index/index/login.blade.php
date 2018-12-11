@@ -15,19 +15,20 @@
 </head>
 <body class="loginBody">
 	<form class="layui-form" id="ajaxfrom">
+		{{csrf_field()}}
 		<div class="login_face"><img src="{{asset('back')}}/images/face.jpg" class="userAvatar"></div>
 		<div class="layui-form-item input-item">
-			<label for="userName">用户名</label>
-			<input type="text" placeholder="请输入用户名" autocomplete="off" id="userName" class="layui-input" lay-verify="required">
+			<label for="userName">邮箱地址</label>
+			<input type="text" placeholder="请输入登录邮箱" autocomplete="off" id="userName" name="email" class="layui-input" lay-verify="required|email">
 		</div>
 		<div class="layui-form-item input-item">
 			<label for="password">密码</label>
-			<input type="password" placeholder="请输入密码" autocomplete="off" id="password" class="layui-input" lay-verify="required">
+			<input type="password" placeholder="请输入密码" autocomplete="off" id="password" name="password" class="layui-input" lay-verify="required">
 		</div>
 		<div class="layui-form-item input-item" id="imgCode">
 			<label for="code">验证码</label>
-			<input type="text" placeholder="请输入验证码" autocomplete="off" id="code" class="layui-input">
-			<img src="{{asset('back')}}/images/code.jpg">
+			<input type="text" placeholder="请输入验证码" autocomplete="off" id="code" class="layui-input" name="captcha">
+			<img src="{{Captcha::src()}}" onclick="this.src='/captcha/default?'+Math.random()" id="captcha">
 		</div>
 		<div class="layui-form-item">
 			<button class="layui-btn layui-block login" lay-filter="login" lay-submit >登录</button>

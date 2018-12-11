@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\admin\system\auth;
-
+use Illuminate\Support\Facades\DB;
 use App\Model\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -87,10 +87,7 @@ class AuthController extends Controller
      */
     public function destroy($id)
     {
-
-        Permission::findById($id);
-        $role->revokePermissionTo($permission);
-        $res = $auth->destroy($id);
+        $res=$this->delete_auth($id);
         return $res?['code'=>1]:['code'=>0];
     }
 
@@ -101,5 +98,16 @@ class AuthController extends Controller
         $data  = $auth->get_limit([],$offset,$limit);
         $count = $auth->count();
         return ['code'=>0,'count'=>$count,'data'=>$data];
+    }
+
+    //删除权限
+    public function  delete_auth($id){
+        //删除权限与角色关系
+        DB::table('role_has_permissions')->where('permission_id',$id)->delete();
+        //删除对应权限
+        $auth=new Auth();
+        //删除
+        $res = $auth->destroy($id);
+        return $res;
     }
 }

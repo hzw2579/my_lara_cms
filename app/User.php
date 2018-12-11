@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
@@ -27,4 +28,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    //ajax分页
+    public function get_limit($where = [],$offset = 0,$limit = 10,$By = 'id'){
+        return $this->where($where)->offset($offset)->limit($limit)->orderBy($By,'desc')->get()->toArray();
+    }
 }

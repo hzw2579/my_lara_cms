@@ -102,8 +102,7 @@ class RolesController extends Controller
      */
     public function destroy($id)
     {
-       $roles=new Roles();
-       $res=$roles->destroy($id);
+        $res=$this->delete_roles($id);
         return $res?['code'=>1]:['code'=>0];
     }
 
@@ -115,5 +114,14 @@ class RolesController extends Controller
         $data  = $roles->get_limit([],$offset,$limit);
         $count = $roles->count();
         return ['code'=>0,'count'=>$count,'data'=>$data];
+    }
+
+    //删除角色
+    public function delete_roles($id){
+        //删除权限与角色关系
+        DB::table('role_has_permissions')->where('role_id',$id)->delete();
+        $roles=new Roles();
+        $res=$roles->destroy($id);
+        return $res;
     }
 }

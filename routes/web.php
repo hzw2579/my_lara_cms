@@ -17,7 +17,7 @@
  */
 Route::group(['prefix'=>'admin'],function (){
     //laravel自带的登录和注册
-    Auth::routes();
+//    Auth::routes();
     //首页\登录
     Route::group(['namespace'=>'admin\index'],function (){
 
@@ -26,7 +26,11 @@ Route::group(['prefix'=>'admin'],function (){
             Route::get('index','IndexController@index');
             Route::get('main','IndexController@main');
             //登录
-//            Route::match(['get','post'],'login','IndexController@login');
+            Route::match(['get','post'],'login','IndexController@login');
+            //用户登录接口
+            Route::match(['get','post'],'login_now','IndexController@login_now');
+            //用户退出接口
+            Route::get('login_out','IndexController@login_out');
         });
 
     });
@@ -37,6 +41,7 @@ Route::group(['prefix'=>'admin'],function (){
         //后台用户管理
         Route::group(['namespace'=>'users'],function (){
             Route::resource('users', 'UsersController');
+            Route::get('users_ajax_list', 'UsersController@users_ajax_list');
         });
 
         //后台权限管理
