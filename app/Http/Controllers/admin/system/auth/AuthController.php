@@ -87,7 +87,9 @@ class AuthController extends Controller
      */
     public function destroy($id)
     {
-        $auth = new Auth();
+
+        Permission::findById($id);
+        $role->revokePermissionTo($permission);
         $res = $auth->destroy($id);
         return $res?['code'=>1]:['code'=>0];
     }
