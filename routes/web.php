@@ -99,6 +99,8 @@ Route::group(['prefix'=>'admin'],function (){
         //文章管理
         Route::group(['namespace'=>'article'],function (){
             Route::resource('article', 'ArticleController');
+            Route::get('article_ajax_list', 'ArticleController@ajax_list');
+            Route::post('article_delAll', 'ArticleController@delAll');
         });
 
         //广告管理
@@ -140,6 +142,7 @@ Route::group(['prefix'=>'admin'],function (){
         Route::group(['namespace'=>'messages'],function (){
             Route::resource('messages', 'MessagesController');
             Route::get('messages_ajax_list', 'MessagesController@ajax_list');
+            Route::post('messages_delAll', 'MessagesController@delAll');
         });
 
     });

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>分类类型</title>
+    <title>文章管理</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -30,37 +30,14 @@
             </script>
             <script type="text/html" id="head-left">
                 <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
                     <button class="layui-btn layui-btn-sm" lay-event="delete">删除</button>
                 </div>
             </script>
         </div>
     </div>
 </div>
-@verbatim
-    <script type="text/html" id="statusTpl">
-        {{#  if(d.status  == 1){ }}
-        <button class="layui-btn layui-btn-xs layui-btn-radius layui-btn-normal">已处理</button>
-        {{#  } else { }}
-        <button class="layui-btn layui-btn-xs layui-btn-radius layui-btn-disabled">未处理</button>
-        {{# }}}
-    </script>
-    <script type="text/html" id="imageTpl">
-        <img src="{{ d.image }}">
-    </script>
-    <script type="text/html" id="typeTpl">
-        {{#  if(d.type  == 1){ }}
-        邮箱：
-        {{#  } else if( d.status == 2) { }}
-        手机：
-        {{#  } else if( d.status == 3) { }}
-        QQ：
-        {{#  } else if( d.status == 4) { }}
-        微信：
-        {{# }}}
-        {{ d.contact }}
-    </script>
 
-@endverbatim
 <script src="{{asset('src')}}/layui/layui.js"></script>
 <script src="{{asset('src')}}/jquery.js"></script>
 <script>
@@ -78,18 +55,21 @@
         table.render({
             elem: '#demo'
             ,height: 'full-170'
-            ,url: "{{url('admin/messages_ajax_list')}}" //数据接口
+            ,url: "{{url('admin/article_ajax_list')}}" //数据接口
             ,toolbar: '#head-left' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
             ,page: true //开启分页
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
-                ,{field: 'type',templet:'#typeTpl', title: '联系方式'}
-                ,{field: 'message', title: '留言'}
-                ,{field: 'status',templet:'#statusTpl', title: '状态', sort: true, width:'10%'}
+                ,{field: 'title', title: '标题'}
+                ,{field: 'author', title: '作者'}
+                ,{field: 'type', title: '分类'}
+                ,{field: 'sort', title: '排序',sort: true}
+                ,{field: 'like', title: '点赞',sort: true}
+                ,{field: 'read', title: '阅读',sort: true}
+                ,{field: 'status', title: '状态',sort:true}
                 ,{field: 'updated_at', title: '修改时间', sort: true,width:'15%'}
-                ,{field: 'created_at', title: '创建时间', sort: true,width:'15%'}
-                ,{title: '操作',fixed: 'right', width:'20%', align:'center', toolbar: '#toolbarDemo'}
+                ,{title: '操作',fixed: 'right', width:'15%', align:'center', toolbar: '#toolbarDemo'}
             ]]
             ,done: function(res, curr, count){
             }
@@ -111,11 +91,11 @@
             layer.open({
                 type: 2,
                 title:'修改类型',
-                area: ['60%', '60%'],
+                area: ['80%', '80%'],
                 fixed: false, //不固定
                 maxmin: true,
                 offset: 't',
-                content: "/admin/messages/"+id+"/edit",
+                content: "/admin/article/"+id+"/edit",
                 end:function () {
                     table.reload('demo');
                 }
@@ -126,7 +106,7 @@
             layer.confirm('确认要删除吗？', {icon: 3, title:'提示'}, function(index) {
                 if(index) {
                     $.ajax({
-                        url: "/admin/messages/" + id,
+                        url: "/admin/article/" + id,
                         type: "post",
                         async: false,
                         cache: false,
@@ -148,11 +128,11 @@
             layer.open({
                 type: 2,
                 title: '添加类型',
-                area: ['800px', '250px'],
+                area: ['80%', '80%'],
                 fixed: false, //不固定
                 maxmin: true,
                 offset: 't',
-                content: '{{url('admin/category_type/create')}}',
+                content: '{{url('admin/article/create')}}',
                 //关闭是的回调函数
                 end: function () {
                     table.reload('demo');
@@ -166,6 +146,9 @@
                 ,data = checkStatus.data; //获取选中的数据
             console.log(data);
             switch(obj.event){
+                case 'add':
+                    add()
+                    break;
                 case 'delete':
                     if(data.length === 0){
                         layer.msg('请选择一行');
@@ -180,7 +163,7 @@
                                 }
 
                                 $.ajax({
-                                    url: "/admin/messages_delAll",
+                                    url: "/admin/article_delAll",
                                     type: "post",
                                     async: false,
                                     cache: false,

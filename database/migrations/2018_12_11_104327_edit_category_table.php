@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCategoryTypeTable extends Migration
+class EditCategoryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateCategoryTypeTable extends Migration
      */
     public function up()
     {
-        Schema::table('category_type', function (Blueprint $table) {
-            $table->dropColumn(['false_del']);
+        Schema::table('category', function ($table) {
             $table->softDeletes();
+            $table->dropColumn('false_del');
         });
     }
 
@@ -26,6 +26,9 @@ class CreateCategoryTypeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('category_type');
+        Schema::table('category', function ($table) {
+            $table->softDeletes();
+            $table->tinyInteger('false_del')->default(1)->comment('假删除');
+        });
     }
 }

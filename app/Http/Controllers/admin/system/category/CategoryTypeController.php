@@ -114,7 +114,7 @@ class CategoryTypeController extends Controller
 
     //多删除
     public function delAll(Request $request,Category_Type $category_Type){
-        $res = $category_Type->whereIn('id',$request->input('data'))->delete();
+        $res = $category_Type->delall($request->input('data'));
         return ajax_return($res);
     }
 }

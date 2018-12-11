@@ -115,8 +115,8 @@ class LinkController extends Controller
         return ['code'=>0,'count'=>$count,'data'=>$data];
     }
     //多删除
-    public function delAll(Request $request,Category_Type $category_Type){
-        $res = $category_Type->whereIn('id',$request->input('data'))->delete();
+    public function delAll(Request $request,Link $link){
+        $res = $link->delall($request->input('data'));
         return ajax_return($res);
     }
 }
