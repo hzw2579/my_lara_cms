@@ -30,9 +30,17 @@ function get_file_type($file){
     }
     return '';
 }
-
+//获取分类类型
 function get_cate_type($id){
     $type = DB::table('category_type')->where(['id'=>$id])->first();
+    if(empty($type)){
+        return '';
+    }
+    return  $type->name;
+}
+//获取banner类型
+function get_banner_place($id){
+    $type = DB::table('banner_place')->where(['id'=>$id])->first();
     if(empty($type)){
         return '';
     }
