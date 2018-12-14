@@ -4,10 +4,12 @@ namespace App\Http\Controllers\admin\index\index;
 
 use App\Http\Controllers\BackBaseController;
 use App\Http\Requests\CheckLogin;
+use App\Http\Requests\CheckUsers;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class IndexController extends BackBaseController
 {
@@ -17,6 +19,7 @@ class IndexController extends BackBaseController
      * 创建时间：2018/11/30
      */
     public function index(){
+//        dump(session()->all());
         return view('admin.index.index.index');
     }
 
@@ -34,22 +37,19 @@ class IndexController extends BackBaseController
     }
 
     public function checklogin($data){
+        //调用laravel默认判断
+        if (Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
             $user=new User();
             $user=$user->where('email',$data['email'])->first();
-            if($user){
-                //判断密码是否正确
-                if (Hash::check($data['password'],$user->password)) {
-                    $session=[
-                        'name'=>$user->name,
-                        'id'=>$user->id,
-                        'email'=>$user->email
-                    ];
-                    session($session);
-                    return true;
-                }
-                return false;
-            }
-            return false;
+            $session=[
+                'name'=>$user->name,
+                'id'=>$user->id,
+                'email'=>$user->email
+            ];
+            session($session);
+            return true;
+        }
+        return false;
 
     }
 
@@ -62,6 +62,27 @@ class IndexController extends BackBaseController
 
     public function login_out(){
         session()->forget(['name','id','email']);
+        Auth::logout();
         return redirect('admin/login');
     }
+
+    public function info_edit($id){
+        $user=new User();
+        $data['info']=$user->find($id);
+        return view('admin.index.index.info_edit',$data);
+    }
+
+    public function user_edit($id,CheckUsers $request,User $user){
+//        dd($request->all());
+        $user=$user->find($id);
+        $res=$user->edit($id,$request->all());
+        return $res?['code'=>1]:['code'=>0];
+    }
+
+    public function psw_edit($id){
+        $user=new User();
+        $data['info']=$user->find($id);
+        return view('admin.index.index.psw_edit',$data);
+    }
+
 }

@@ -42,7 +42,7 @@ class UsersController extends BackBaseController
     public function store(CheckUsers $request,User $user,Roles $roles)
     {
             $user->name=$request->input('name');
-            $user->password=bcrypt($request->input('psw'));
+            $user->password=$request->input('psw');
             $user->email=$request->input('email');
             //获取角色
             $name=$roles->where('id',$request->input('roles'))->first();
@@ -78,7 +78,10 @@ class UsersController extends BackBaseController
         $data['roles']=$roles->get();
 
         $user=new User();
+
         $user=$user->find($id);
+//        $dd=$user->getAllPermissions();
+//        dd($dd);
         $data['role']=$user->getRoleNames();
         $data['info']=$user;
         return view('admin.system.users.edit',$data);
@@ -99,7 +102,7 @@ class UsersController extends BackBaseController
         $user=$user->find($id);
         $user->name=$request->input('name');
         if($request->input('psw')!=null){
-            $user->password=bcrypt($request->input('psw'));
+            $user->password=$request->input('psw');
         }
         $user->email=$request->input('email');
         //获取传入的角色名称
@@ -107,6 +110,7 @@ class UsersController extends BackBaseController
         $role=$role->find($request->input('roles'));
         //重新同步角色
         $user->syncRoles($role->name);
+        $user->givePermissionTo('system_site');
         try{
             $res=$user->save();
             return $res?['code'=>1]:['code'=>0];

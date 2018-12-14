@@ -48,6 +48,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
+            //返回没有权限的视图
+            return response()->view('admin.index.index.index');
+        }
+
         return parent::render($request, $exception);
     }
 }

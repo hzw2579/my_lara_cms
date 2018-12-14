@@ -15,7 +15,7 @@
 /**
  * 后台路由文件
  */
-Route::group(['prefix'=>'admin'],function (){
+Route::group(['prefix'=>'admin','middleware'=>'logsome'],function (){
     //laravel自带的登录和注册
 //    Auth::routes();
     //首页\登录
@@ -29,6 +29,12 @@ Route::group(['prefix'=>'admin'],function (){
             Route::match(['get','post'],'login','IndexController@login');
             //用户登录接口
             Route::match(['get','post'],'login_now','IndexController@login_now');
+            //修改用户资料
+            Route::get('info_edit/{id}','IndexController@info_edit');
+            //修改用户密码
+            Route::get('psw_edit/{id}','IndexController@psw_edit');
+            //修改接口
+            Route::post('user_edit/{id}','IndexController@user_edit');
             //用户退出接口
             Route::get('login_out','IndexController@login_out');
         });
@@ -79,7 +85,7 @@ Route::group(['prefix'=>'admin'],function (){
 
 
         //后台站点配置
-        Route::group(['namespace'=>'site'],function (){
+        Route::group(['namespace'=>'site','middleware' => ['permission:system_site|seo_set']],function (){
             //站点配置
             Route::get('site', 'SiteController@site');
             //SEO配置

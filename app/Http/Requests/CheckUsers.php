@@ -24,9 +24,12 @@ class CheckUsers extends FormRequest
     public function rules()
     {
         $id = $this->route('user');
+        if(!$id){
+            $id = $this->route('id');
+        }
         return [
             'email'=>'email|unique:users,email,'.$id,
-            'name'=>'required',
+            'name'=>'nullable',
             'psw'=>'nullable|confirmed',
         ];
     }
@@ -35,7 +38,7 @@ class CheckUsers extends FormRequest
         return [
             'email.email' => '请输入正确的邮箱地址',
             'email.unique' => '邮箱已注册',
-            'name.required'=>'请输入用户名称',
+//            'name.required'=>'请输入用户名称',
             'psw.filled'=>'请输入用户密码',
             'psw.confirmed'=>'确认密码不一致',
         ];

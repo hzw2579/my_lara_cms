@@ -66,8 +66,8 @@
                         <cite>{{session('name')}}</cite>
                         <span class="layui-nav-more"></span></a>
                     <dl class="layui-nav-child">
-                        <dd><a lay-href="../src/views/set/user/info.html">基本资料</a></dd>
-                        <dd><a lay-href="../src/views/set/user/password.html">修改密码</a></dd>
+                        <dd><a lay-href="/admin/info_edit/{{session('id')}}">基本资料</a></dd>
+                        <dd><a lay-href="/admin/psw_edit/{{session('id')}}">修改密码</a></dd>
                         <hr>
                         <dd style="text-align: center;"><a href="/admin/login_out">退出</a></dd>
                     </dl>
@@ -113,13 +113,17 @@
                             <cite>系统配置</cite>
                             <span class="layui-nav-more"></span></a>
                         <dl class="layui-nav-child">
+                            @can('system_site')
                             <dd data-name="site" class="">
                                 <a lay-href="{{url('admin/site')}}">站点设置</a>
                             </dd>
+                            @endcan
 
+                            @can('seo_set')
                             <dd data-name="seo" class="">
                                 <a lay-href="{{url('admin/seo')}}">SEO设置</a>
                             </dd>
+                            @endcan
 
                             <dd data-name="basic" class="">
                                 <a lay-href="{{url('admin/basic')}}">基本信息</a>
