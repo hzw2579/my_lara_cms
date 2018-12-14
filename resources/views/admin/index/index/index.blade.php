@@ -173,7 +173,10 @@
                                 <a lay-href="{{url('admin/article')}}">文章管理</a>
                             </dd>
                             <dd data-name="banner" class="">
-                                <a lay-href="{{url('admin/site')}}">广告管理</a>
+                                <a lay-href="{{url('admin/banner_place')}}">广告位管理</a>
+                            </dd>
+                            <dd data-name="banner" class="">
+                                <a lay-href="{{url('admin/banner')}}">广告管理</a>
                             </dd>
                             <dd data-name="photo" class="">
                                 <a lay-href="{{url('admin/site')}}">相册管理</a>
@@ -182,7 +185,7 @@
                                 <a lay-href="{{url('admin/link')}}">友情链接</a>
                             </dd>
                             <dd data-name="page" class="">
-                                <a lay-href="{{url('admin/site')}}">单页管理</a>
+                                <a lay-href="{{url('admin/page')}}">单页管理</a>
                             </dd>
                         </dl>
                     </li>
@@ -193,7 +196,7 @@
                             <span class="layui-nav-more"></span></a>
                         <dl class="layui-nav-child">
                             <dd data-name="member" class="">
-                                <a lay-href="{{url('admin/site')}}">会员管理</a>
+                                <a lay-href="{{url('admin/member')}}">会员管理</a>
                             </dd>
                         </dl>
                     </li>

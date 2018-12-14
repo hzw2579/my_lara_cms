@@ -183,6 +183,10 @@ return [
         Stevenyangecho\UEditor\UEditorServiceProvider::class,
         //验证码
         Mews\Captcha\CaptchaServiceProvider::class,
+        // 阿里云短信
+        Mrgoon\AliSms\ServiceProvider::class,
+        //二维码
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class
     ],
 
     /*
@@ -232,7 +236,10 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Captcha' => Mews\Captcha\Facades\Captcha::class,
-
+        //阿里云
+        'AliSms'=>Mrgoon\AliSms\ServiceProvider::class,
+        //二维码
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class
     ],
 
 ];

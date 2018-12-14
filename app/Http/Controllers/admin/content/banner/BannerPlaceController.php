@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\admin\content\page;
+namespace App\Http\Controllers\admin\content\banner;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Model\Page;
+use App\Model\Banner_Place;
 
-class PageController extends Controller
+class BannerPlaceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class PageController extends Controller
      */
     public function index()
     {
-        return view('admin.content.page.index');
+        return view('admin.content.banner.place_index');
     }
 
     /**
@@ -25,7 +25,7 @@ class PageController extends Controller
      */
     public function create()
     {
-        return view('admin.content.page.add');
+        return view('admin.content.banner.place_add');
     }
 
     /**
@@ -34,14 +34,10 @@ class PageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,Banner_Place $banner_Place)
     {
-        $page = new Page();
         $data = $request->all();
-        if($request->input('status',0) == 0){
-            $data['status'] = 0;
-        }
-        $res = $page->add($data);
+        $res  = $banner_Place->add($data);
         return ajax_return($res);
     }
 
@@ -64,9 +60,9 @@ class PageController extends Controller
      */
     public function edit($id)
     {
-        $page = new Page();
-        $data['info'] = $page->find($id);
-        return view('admin.content.page.edit',$data);
+        $banner_place = new Banner_Place();
+        $data['info'] = $banner_place->find($id);
+        return view('admin.content.banner.place_edit',$data);
     }
 
     /**
@@ -78,12 +74,9 @@ class PageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $page = new Page();
+        $banner_place = new Banner_Place();
         $data = $request->all();
-        if($request->input('status',0) == 0){
-            $data['status'] = 0;
-        }
-        $res = $page->edit($id,$data);
+        $res = $banner_place->edit($id,$data);
         return ajax_return($res);
     }
 
@@ -95,29 +88,30 @@ class PageController extends Controller
      */
     public function destroy($id)
     {
-        $page = new Page();
-        $res = $page->del($id);
+        $banner_place = new Banner_Place();
+        $res = $banner_place->del($id);
         return ajax_return($res);
     }
 
     //ajax列表
-    public function ajax_list(Request $request,Page $page){
+    public function ajax_list(Request $request,Banner_Place $banner_place){
         $PageId = $request->input('page',1);
         $limit = $request->input('limit',10);
         $offset = ($PageId-1)*$limit;
         if($request->has('search')){
             $search = $request->input('search');
-            $data  = $page->get_limit([['title','like','%'.$search.'%']],$offset,$limit);
-            $count = $page->where([['title','like','%'.$search.'%']])->count();
+            $data  = $banner_place->get_limit([['name','like','%'.$search.'%']],$offset,$limit);
+            $count = $banner_place->where([['name','like','%'.$search.'%']])->count();
         }else{
-            $data  = $page->get_limit([],$offset,$limit);
-            $count = $page->count();
+            $data  = $banner_place->get_limit([],$offset,$limit);
+            $count = $banner_place->count();
         }
         return ['code'=>0,'count'=>$count,'data'=>$data];
     }
+
     //多删除
-    public function delAll(Request $request,Page $page){
-        $res = $page->delall($request->input('data'));
+    public function delAll(Request $request,Banner_Place $banner_Place){
+        $res = $banner_Place->delall($request->input('data'));
         return ajax_return($res);
     }
 }

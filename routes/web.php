@@ -82,8 +82,6 @@ Route::group(['prefix'=>'admin','middleware'=>'logsome'],function (){
             Route::get('media_open_list', 'MediaController@open_list');
         });
 
-
-
         //后台站点配置
         Route::group(['namespace'=>'site','middleware' => ['permission:system_site|seo_set']],function (){
             //站点配置
@@ -117,6 +115,11 @@ Route::group(['prefix'=>'admin','middleware'=>'logsome'],function (){
         //广告管理
         Route::group(['namespace'=>'banner'],function (){
             Route::resource('banner', 'BannerController');
+            Route::get('banner_ajax_list', 'BannerController@ajax_list');
+
+            Route::resource('banner_place', 'BannerPlaceController');
+            Route::get('banner_place_ajax_list', 'BannerPlaceController@ajax_list');
+            Route::post('banner_place_delAll', 'BannerPlaceController@delAll');
         });
 
         //相册管理
@@ -134,6 +137,8 @@ Route::group(['prefix'=>'admin','middleware'=>'logsome'],function (){
         //单页管理
         Route::group(['namespace'=>'page'],function (){
             Route::resource('page', 'PageController');
+            Route::get('page_ajax_list', 'PageController@ajax_list');
+            Route::post('page_delAll', 'PageController@delAll');
         });
     });
 
@@ -143,6 +148,7 @@ Route::group(['prefix'=>'admin','middleware'=>'logsome'],function (){
         //会员管理
         Route::group(['namespace'=>'member'],function (){
             Route::resource('member', 'MemberController');
+            Route::get('member_ajax_list', 'MemberController@ajax_list');
         });
     });
 
