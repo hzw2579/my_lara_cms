@@ -21,31 +21,26 @@
                         <i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
                     </a>
                 </li>
-                <li class="layui-nav-item layui-hide-xs" lay-unselect="">
-                    <a href="http://www.layui.com/admin/" target="_blank" title="前台">
-                        <i class="layui-icon layui-icon-website"></i>
-                    </a>
-                </li>
                 <li class="layui-nav-item" lay-unselect="">
                     <a href="javascript:;" layadmin-event="refresh" title="刷新">
                         <i class="layui-icon layui-icon-refresh-3"></i>
                     </a>
                 </li>
-                <li class="layui-nav-item layui-hide-xs" lay-unselect="">
-                    <input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search"
-                           layadmin-event="serach" lay-action="template/search.html?keywords=">
-                </li>
+                {{--<li class="layui-nav-item layui-hide-xs" lay-unselect="">--}}
+                    {{--<input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search"--}}
+                           {{--layadmin-event="serach" lay-action="template/search.html?keywords=">--}}
+                {{--</li>--}}
             </ul>
             <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
 
-                <li class="layui-nav-item" lay-unselect="">
-                    <a lay-href="../src/views/app/message/index.html" layadmin-event="message" lay-text="消息中心">
-                        <i class="layui-icon layui-icon-notice"></i>
+                {{--<li class="layui-nav-item" lay-unselect="">--}}
+                    {{--<a lay-href="../src/views/app/message/index.html" layadmin-event="message" lay-text="消息中心">--}}
+                        {{--<i class="layui-icon layui-icon-notice"></i>--}}
 
-                        <!-- 如果有新消息，则显示小圆点 -->
-                        <span class="layui-badge-dot"></span>
-                    </a>
-                </li>
+                        {{--<!-- 如果有新消息，则显示小圆点 -->--}}
+                        {{--<span class="layui-badge-dot"></span>--}}
+                    {{--</a>--}}
+                {{--</li>--}}
                 <li class="layui-nav-item layui-hide-xs" lay-unselect="">
                     <a href="javascript:;" layadmin-event="theme">
                         <i class="layui-icon layui-icon-theme"></i>
@@ -99,17 +94,17 @@
                             <dd data-name="console" class="layui-this">
                                 <a lay-href="{{url('admin/main')}}">控制台</a>
                             </dd>
-                            <dd data-name="console">
-                                <a lay-href="../src/views/home/homepage1.html">主页一</a>
-                            </dd>
-                            <dd data-name="console">
-                                <a lay-href="../src/views/home/homepage2.html">主页二</a>
-                            </dd>
+                            {{--<dd data-name="console">--}}
+                                {{--<a lay-href="../src/views/home/homepage1.html">主页一</a>--}}
+                            {{--</dd>--}}
+                            {{--<dd data-name="console">--}}
+                                {{--<a lay-href="../src/views/home/homepage2.html">主页二</a>--}}
+                            {{--</dd>--}}
                         </dl>
                     </li>
                     <li data-name="system" class="layui-nav-item">
                         <a href="javascript:;" lay-tips="系统配置" lay-direction="2">
-                            <i class="layui-icon layui-icon-home"></i>
+                            <i class="layui-icon layui-icon-set"></i>
                             <cite>系统配置</cite>
                             <span class="layui-nav-more"></span></a>
                         <dl class="layui-nav-child">
@@ -117,13 +112,13 @@
                             <dd data-name="site" class="">
                                 <a lay-href="{{url('admin/site')}}">站点设置</a>
                             </dd>
-                            @endcan
 
-                            @can('seo_set')
+
+
                             <dd data-name="seo" class="">
                                 <a lay-href="{{url('admin/seo')}}">SEO设置</a>
                             </dd>
-                            @endcan
+
 
                             <dd data-name="basic" class="">
                                 <a lay-href="{{url('admin/basic')}}">基本信息</a>
@@ -132,7 +127,9 @@
                             <dd data-name="contact" class="">
                                 <a lay-href="{{url('admin/contact')}}">联系方式</a>
                             </dd>
+                            @endcan
 
+                            @can('cate_set')
                             <dd data-name="category" class="">
                                 <a lay-href="{{url('admin/category_type')}}">分类类型</a>
                             </dd>
@@ -140,11 +137,15 @@
                             <dd data-name="category" class="">
                                 <a lay-href="{{url('admin/category')}}">分类管理</a>
                             </dd>
+                            @endcan
 
+                            @can('attach_set')
                             <dd data-name="media" class="">
                                 <a lay-href="{{url('admin/media')}}">附件管理</a>
                             </dd>
+                            @endcan
 
+                            @can('auth_set')
                             <dd data-name="auth" class="">
                                 <a lay-href="{{url('admin/auth')}}">权限管理</a>
                             </dd>
@@ -152,46 +153,55 @@
                             <dd data-name="auth" class="">
                                 <a lay-href="{{url('admin/roles')}}">角色管理</a>
                             </dd>
+                            @endcan
 
+                            @can('user_set')
                             <dd data-name="users" class="">
                                 <a lay-href="{{url('admin/users')}}">管理员管理</a>
                             </dd>
 
                             <dd data-name="log" class="">
-                                <a lay-href="{{url('admin/site')}}">日志管理</a>
+                                <a lay-href="{{url('admin/log')}}">日志管理</a>
                             </dd>
+                            @endcan
                         </dl>
                     </li>
                     <li data-name="content" class="layui-nav-item">
                         <a href="javascript:;" lay-tips="内容管理" lay-direction="2">
-                            <i class="layui-icon layui-icon-home"></i>
+                            <i class="layui-icon layui-icon-read"></i>
                             <cite>内容管理</cite>
                             <span class="layui-nav-more"></span></a>
                         <dl class="layui-nav-child">
-
+                            @can('article_set')
                             <dd data-name="article" class="">
                                 <a lay-href="{{url('admin/article')}}">文章管理</a>
                             </dd>
+                            @endcan
+
+                            @can('banner_set')
                             <dd data-name="banner" class="">
                                 <a lay-href="{{url('admin/banner_place')}}">广告位管理</a>
                             </dd>
                             <dd data-name="banner" class="">
                                 <a lay-href="{{url('admin/banner')}}">广告管理</a>
                             </dd>
-                            <dd data-name="photo" class="">
-                                <a lay-href="{{url('admin/site')}}">相册管理</a>
-                            </dd>
+                            @endcan
+
+                            @can('friends_link_set')
                             <dd data-name="link" class="">
                                 <a lay-href="{{url('admin/link')}}">友情链接</a>
                             </dd>
+                            @endcan
+                            @can('single_page_set')
                             <dd data-name="page" class="">
                                 <a lay-href="{{url('admin/page')}}">单页管理</a>
                             </dd>
+                            @endcan
                         </dl>
                     </li>
                     <li data-name="member" class="layui-nav-item">
                         <a href="javascript:;" lay-tips="会员管理" lay-direction="2">
-                            <i class="layui-icon layui-icon-home"></i>
+                            <i class="layui-icon layui-icon-user"></i>
                             <cite>会员管理</cite>
                             <span class="layui-nav-more"></span></a>
                         <dl class="layui-nav-child">
@@ -203,13 +213,15 @@
 
                     <li data-name="interaction" class="layui-nav-item">
                         <a href="javascript:;" lay-tips="互动管理" lay-direction="2">
-                            <i class="layui-icon layui-icon-home"></i>
+                            <i class="layui-icon layui-icon-face-smile"></i>
                             <cite>互动管理</cite>
                             <span class="layui-nav-more"></span></a>
                         <dl class="layui-nav-child">
+                            @can('message_set')
                             <dd data-name="messages" class="">
                                 <a lay-href="{{url('admin/messages')}}">留言管理</a>
                             </dd>
+                            @endcan
                         </dl>
                     </li>
 

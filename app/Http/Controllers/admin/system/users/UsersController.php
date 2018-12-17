@@ -110,7 +110,6 @@ class UsersController extends BackBaseController
         $role=$role->find($request->input('roles'));
         //重新同步角色
         $user->syncRoles($role->name);
-        $user->givePermissionTo('system_site');
         try{
             $res=$user->save();
             return $res?['code'=>1]:['code'=>0];

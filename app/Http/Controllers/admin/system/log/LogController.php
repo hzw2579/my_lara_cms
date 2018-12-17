@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin\system\log;
 
+use App\Model\Log;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -14,7 +15,7 @@ class LogController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.log.index');
     }
 
     /**
@@ -81,5 +82,14 @@ class LogController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function log_ajax_list(Request $request,Log $log){
+        $PageId = $request->input('page',1);
+        $limit = $request->input('limit',10);
+        $offset = ($PageId-1)*$limit;
+        $data  = $log->get_limit([],$offset,$limit);
+        $count = $log->count();
+        return ['code'=>0,'count'=>$count,'data'=>$data];
     }
 }

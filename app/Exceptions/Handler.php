@@ -50,7 +50,7 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
             //返回没有权限的视图
-            return response()->view('admin.index.index.index');
+            return response()->view('admin.auth.auth.noauth');
         }
 
         return parent::render($request, $exception);

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Article;
 use App\Model\Category;
-
+use App\Events\LogEvent;
 class ArticleController extends Controller
 {
     /**
@@ -100,6 +100,7 @@ class ArticleController extends Controller
     {
         $article = new Article();
         $res = $article->del($id);
+        event(new LogEvent('用户删除文章'));
         return ajax_return($res);
     }
 

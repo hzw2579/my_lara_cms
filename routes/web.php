@@ -15,7 +15,7 @@
 /**
  * 后台路由文件
  */
-Route::group(['prefix'=>'admin','middleware'=>'logsome'],function (){
+Route::group(['prefix'=>'admin'],function (){
     //laravel自带的登录和注册
 //    Auth::routes();
     //首页\登录
@@ -45,13 +45,13 @@ Route::group(['prefix'=>'admin','middleware'=>'logsome'],function (){
     Route::group(['namespace'=>'admin\system'],function (){
 
         //后台用户管理
-        Route::group(['namespace'=>'users'],function (){
+        Route::group(['namespace'=>'users','middleware' => ['permission:user_set']],function (){
             Route::resource('users', 'UsersController');
             Route::get('users_ajax_list', 'UsersController@users_ajax_list');
         });
 
         //后台权限管理
-        Route::group(['namespace'=>'auth'],function (){
+        Route::group(['namespace'=>'auth','middleware' => ['permission:auth_set']],function (){
             //权限控制器
             Route::resource('auth', 'AuthController');
             //角色控制器
@@ -63,7 +63,7 @@ Route::group(['prefix'=>'admin','middleware'=>'logsome'],function (){
         });
 
         //后台分类管理
-        Route::group(['namespace'=>'category'],function (){
+        Route::group(['namespace'=>'category','middleware' => ['permission:cate_set']],function (){
             //分类制器
             Route::resource('category', 'CategoryController');
             Route::get('category_ajax_list', 'CategoryController@ajax_list');
@@ -75,7 +75,7 @@ Route::group(['prefix'=>'admin','middleware'=>'logsome'],function (){
         });
 
         //后台附件管理
-        Route::group(['namespace'=>'media'],function (){
+        Route::group(['namespace'=>'media','middleware' => ['permission:attach_set']],function (){
             Route::resource('media', 'MediaController');
             Route::get('media_ajax_list', 'MediaController@ajax_list');
             Route::post('file_upload', 'MediaController@file_upload');
@@ -83,7 +83,7 @@ Route::group(['prefix'=>'admin','middleware'=>'logsome'],function (){
         });
 
         //后台站点配置
-        Route::group(['namespace'=>'site','middleware' => ['permission:system_site|seo_set']],function (){
+        Route::group(['namespace'=>'site','middleware' => ['permission:system_site']],function (){
             //站点配置
             Route::get('site', 'SiteController@site');
             //SEO配置
@@ -96,8 +96,10 @@ Route::group(['prefix'=>'admin','middleware'=>'logsome'],function (){
             Route::post('site_edit','SiteController@edit');
         });
         //后台日志管理
-        Route::group(['namespace'=>'log'],function (){
+        Route::group(['namespace'=>'log','middleware' => ['permission:user_set']],function (){
             Route::resource('log', 'LogController');
+            //日志列表
+            Route::get('log_ajax_list', 'LogController@log_ajax_list');
         });
 
     });
@@ -106,14 +108,14 @@ Route::group(['prefix'=>'admin','middleware'=>'logsome'],function (){
     Route::group(['namespace'=>'admin\content'],function (){
 
         //文章管理
-        Route::group(['namespace'=>'article'],function (){
+        Route::group(['namespace'=>'article','middleware' => ['permission:article_set']],function (){
             Route::resource('article', 'ArticleController');
             Route::get('article_ajax_list', 'ArticleController@ajax_list');
             Route::post('article_delAll', 'ArticleController@delAll');
         });
 
         //广告管理
-        Route::group(['namespace'=>'banner'],function (){
+        Route::group(['namespace'=>'banner','middleware' => ['permission:banner_set']],function (){
             Route::resource('banner', 'BannerController');
             Route::get('banner_ajax_list', 'BannerController@ajax_list');
 
@@ -122,20 +124,15 @@ Route::group(['prefix'=>'admin','middleware'=>'logsome'],function (){
             Route::post('banner_place_delAll', 'BannerPlaceController@delAll');
         });
 
-        //相册管理
-        Route::group(['namespace'=>'photo'],function (){
-            Route::resource('photo', 'PhotoController');
-        });
-
         //友情链接
-        Route::group(['namespace'=>'link'],function (){
+        Route::group(['namespace'=>'link','middleware' => ['permission:friends_link_set']],function (){
             Route::resource('link', 'LinkController');
             Route::get('link_ajax_list', 'LinkController@ajax_list');
             Route::post('link_delAll', 'LinkController@delAll');
         });
 
         //单页管理
-        Route::group(['namespace'=>'page'],function (){
+        Route::group(['namespace'=>'page','middleware' => ['permission:single_page_set']],function (){
             Route::resource('page', 'PageController');
             Route::get('page_ajax_list', 'PageController@ajax_list');
             Route::post('page_delAll', 'PageController@delAll');
@@ -153,7 +150,7 @@ Route::group(['prefix'=>'admin','middleware'=>'logsome'],function (){
     });
 
     //互动管理
-    Route::group(['namespace'=>'admin\interaction'],function (){
+    Route::group(['namespace'=>'admin\interaction','middleware' => ['permission:message_set']],function (){
 
         //留言管理
         Route::group(['namespace'=>'messages'],function (){

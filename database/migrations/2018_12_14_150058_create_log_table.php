@@ -15,7 +15,9 @@ class CreateLogTable extends Migration
     {
         Schema::create('log', function (Blueprint $table) {
             $table->increments('id');
+            $table->increments('uid');
             $table->string('name')->comment('用户名称');
+            $table->string('behavior')->comment('行为名称');
             $table->string('url')->comment('访问路径');
             $table->string('controller')->comment('访问控制器');
             $table->string('sql')->nullable()->comment('执行记录的语句');
