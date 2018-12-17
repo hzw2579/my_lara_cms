@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CheckLogin;
 use App\Http\Middleware\LogSomething;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -60,5 +61,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        'checklogin'=>CheckLogin::class
     ];
 }

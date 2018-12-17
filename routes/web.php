@@ -22,21 +22,24 @@ Route::group(['prefix'=>'admin'],function (){
     Route::group(['namespace'=>'admin\index'],function (){
 
         Route::group(['namespace'=>'index'],function (){
-            //首页
-            Route::get('index','IndexController@index');
-            Route::get('main','IndexController@main');
             //登录
             Route::match(['get','post'],'login','IndexController@login');
             //用户登录接口
             Route::match(['get','post'],'login_now','IndexController@login_now');
-            //修改用户资料
-            Route::get('info_edit/{id}','IndexController@info_edit');
-            //修改用户密码
-            Route::get('psw_edit/{id}','IndexController@psw_edit');
-            //修改接口
-            Route::post('user_edit/{id}','IndexController@user_edit');
-            //用户退出接口
-            Route::get('login_out','IndexController@login_out');
+            Route::group(['middleware'=>'checklogin'],function (){
+                //首页
+                Route::get('index','IndexController@index');
+                Route::get('main','IndexController@main');
+                //修改用户资料
+                Route::get('info_edit/{id}','IndexController@info_edit');
+                //修改用户密码
+                Route::get('psw_edit/{id}','IndexController@psw_edit');
+                //修改接口
+                Route::post('user_edit/{id}','IndexController@user_edit');
+                //用户退出接口
+                Route::get('login_out','IndexController@login_out');
+            });
+
         });
 
     });
