@@ -55,10 +55,14 @@ class Base extends Model
      * @return mixed 返回混合数据
      */
     public function edit($id,$data){
+
         $model=$this->find($id);
+
         //遍历数据,判断数据是否与模型的字段一致
         foreach ($data as $k=>$v){
-            if(isset($model->$k) && $data[$k]!==null){
+            //排除数组
+            $arr=$this->expect;
+            if(!in_array($k,$arr)){
                 $model->$k=$v;
             }
         }
