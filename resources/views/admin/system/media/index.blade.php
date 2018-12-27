@@ -29,12 +29,12 @@
 @verbatim
     <script type="text/html" id="srcTpl">
         {{#  if(d.type  == 'img'){ }}
-        <img src="{{ d.src}}">
+        <img class="media" src="{{ d.src}}" data-type="{{ d.type }}">
         {{#  } else if( d.type == 'video') { }}
-        <video style="height:auto;" src="{{ d.src}}" id="video0" controls="controls"></video>
+        <video class="media" data-type="{{ d.type }}" style="height:auto;" src="{{ d.src}}" id="video0" controls="controls"></video>
 
         {{#  } else if( d.type == 'redio'){}}
-        <audio src="{{ d.src}}" controls="controls" loop="loop" autoplay="autoplay">亲 您的浏览器不支持html5的audio标签</audio>
+        <audio class="media" data-type="{{ d.type }}" src="{{ d.src}}" controls="controls" loop="loop" autoplay="autoplay">亲 您的浏览器不支持html5的audio标签</audio>
         {{# }}}
     </script>
 @endverbatim
@@ -66,6 +66,7 @@
                 , {title: '操作', fixed: 'right', width: '20%', align: 'center', toolbar: '#toolbarDemo'}
             ]]
             , done: function (res, curr, count) {
+                hoverOpenImg();
             }
         });
 
@@ -118,20 +119,31 @@
                 }
             })
         }
+
+        function hoverOpenImg(){
+            var img_show = null; // tips提示
+            $('.media').hover(function(){
+                var type = $(this).attr('data-type');
+                src = $(this).attr('src');
+
+                if( type  == 'img'){
+                    str = '<img src="'+src+'" style="width:200px;">';
+                } else if( type == 'video') {
+                    str = '<video style="width:200px;height:auto;" src="'+src+'" id="video0" controls="controls"></video>';
+                } else if( d.type == 'redio'){
+                    str = '<audio src="'+src+'" style="width:200px;" controls="controls" loop="loop" autoplay="autoplay">亲 您的浏览器不支持html5的audio标签</audio>';
+                }
+                img_show = layer.tips(str, this,{
+                    tips:[2, 'rgba(41,41,41,.5)']
+                    ,area: ['230px']
+                });
+            },function(){
+                layer.close(img_show);
+            });
+        }
     });
 </script>
 <style>
-    .layui-table tr {
-        height: 140px; /*数值按需更改*/
-    }
-
-    .layui-table-cell {
-        height: auto; /*数值按需更改*/
-    }
-
-    .layui-table img {
-        max-width: 140px;
-    }
 </style>
 </body>
 
